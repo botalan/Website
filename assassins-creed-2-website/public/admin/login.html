@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Login - AC II</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <main class="container" style="max-width: 400px; margin-top: 5rem;">
+        <h2 class="section-title">Animus Login</h2>
+        <div class="card" style="padding: 2rem;">
+            <form id="login-form">
+                <label>Username</label>
+                <input type="text" id="username" required style="width:100%; padding:0.6rem; margin-bottom:1rem; background:#0f0f11; color:#fff; border:1px solid #d4af37;">
+                <label>Password</label>
+                <input type="password" id="password" required style="width:100%; padding:0.6rem; margin-bottom:1.5rem; background:#0f0f11; color:#fff; border:1px solid #d4af37;">
+                <button type="submit" class="btn" style="width:100%;">Access Admin Panel</button>
+            </form>
+        </div>
+    </main>
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const res = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    username: document.getElementById('username').value,
+                    password: document.getElementById('password').value
+                })
+            });
+            if (res.ok) window.location.href = '/index.html';
+            else alert('Invalid login credentials');
+        });
+    </script>
+</body>
+</html>

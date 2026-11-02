@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Game Content & Characters - Assassin's Creed II</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="logo-container"><span class="logo-title">Assassin's Creed II</span></div>
+        <nav>
+            <a href="/index.html">Home</a>
+            <a href="/description.html">Description</a>
+            <a href="/content.html" class="active">Content</a>
+            <a href="/news.html">News</a>
+            <a href="/gallery.html">Gallery</a>
+            <a href="/search.html">Search</a>
+        </nav>
+    </header>
+    <main class="container">
+        <h2 class="section-title">Dramatis Personae</h2>
+        <div class="cards-grid" id="characters-grid"></div>
+    </main>
+    <footer><p>&copy; 2026 Assassin's Creed II Fan Portal</p></footer>
+    <script>
+        fetch('/api/content/characters')
+            .then(res => res.json())
+            .then(data => {
+                if (Array.isArray(data)) {
+                    document.getElementById('characters-grid').innerHTML = data.map(item => `
+                        <div class="card">
+                            <img src="${item.image_url}" class="card-img" alt="${item.name}" onerror="this.src='/images/placeholder.svg'">
+                            <div class="card-body">
+                                <div class="card-category">${item.faction} | ${item.role}</div>
+                                <h3 class="card-title">${item.name}</h3>
+                                <p class="card-text">${item.description}</p>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            });
+    </script>
+</body>
+</html>

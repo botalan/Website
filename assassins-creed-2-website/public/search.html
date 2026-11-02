@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Codex & Archives</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="logo-container"><span class="logo-title">Assassin's Creed II</span></div>
+        <nav>
+            <a href="/index.html">Home</a>
+            <a href="/search.html" class="active">Search</a>
+        </nav>
+    </header>
+    <main class="container">
+        <h2 class="section-title">Search Brotherhood Archives</h2>
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <input type="text" id="search-input" placeholder="Search Ezio, Venice, Hidden Blade..." style="padding: 0.8rem; width: 60%; font-size: 1.1rem; background:#1a1a1e; color:#e8e2ce; border:1px solid #d4af37;">
+            <button onclick="performSearch()" class="btn">Search</button>
+        </div>
+        <div class="cards-grid" id="results-grid"></div>
+    </main>
+    <footer><p>&copy; 2026 Assassin's Creed II Fan Portal</p></footer>
+    <script>
+        function performSearch() {
+            const query = document.getElementById('search-input').value;
+            fetch('/api/search?q=' + encodeURIComponent(query))
+                .then(res => res.json())
+                .then(data => {
+                    if (Array.isArray(data)) {
+                        document.getElementById('results-grid').innerHTML = data.map(item => `
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="card-category">${item.type.toUpperCase()}</div>
+                                    <h3 class="card-title">${item.title}</h3>
+                                    <p class="card-text">${item.snippet}</p>
+                                </div>
+                            </div>
+                        `).join('');
+                    }
+                });
+        }
+    </script>
+</body>
+</html>

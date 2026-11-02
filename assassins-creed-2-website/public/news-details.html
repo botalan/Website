@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Article Details - Assassin's Creed II</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="logo-container"><span class="logo-title">Assassin's Creed II</span></div>
+        <nav>
+            <a href="/index.html">Home</a>
+            <a href="/news.html">News</a>
+        </nav>
+    </header>
+    <main class="container">
+        <div class="card" style="padding: 2rem;" id="article-detail">Loading...</div>
+    </main>
+    <footer><p>&copy; 2026 Assassin's Creed II Fan Portal</p></footer>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        fetch('/api/news/' + id)
+            .then(res => res.json())
+            .then(item => {
+                document.getElementById('article-detail').innerHTML = `
+                    <div class="card-category">${item.category}</div>
+                    <h1>${item.title}</h1>
+                    <br>
+                    <img src="${item.image_url}" style="width:100%; max-height:400px; object-fit:cover;" onerror="this.src='/images/placeholder.svg'">
+                    <br><br>
+                    <p>${item.content}</p>
+                `;
+            });
+    </script>
+</body>
+</html>

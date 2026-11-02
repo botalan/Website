@@ -1,0 +1,1 @@
+console.log("Assassin's Creed II Utilities initialized.");
